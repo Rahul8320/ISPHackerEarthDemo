@@ -15,4 +15,6 @@ public class ISP
     public string Email { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 }
