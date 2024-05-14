@@ -15,10 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\ISPHackerEarth.Application\ISPHackerEarth.Application.csproj" />
     <ProjectReference Include="..\ISPHackerEarth.Infrastructure\ISPHackerEarth.Infrastructure.csproj" />
   </ItemGroup>
 

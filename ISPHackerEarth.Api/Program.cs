@@ -1,3 +1,4 @@
+using ISPHackerEarth.Application;
 using ISPHackerEarth.Infrastructure;
 using ISPHackerEarth.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ var dbConectionString = builder.Configuration.GetConnectionString("DbConnection"
 
 // Add services to the container.
 builder.Services.AddInfrastructures();
+builder.Services.AddApplications();
 
 builder.Services.AddDbContext<ISPDbContext>(option => option.UseSqlite(dbConectionString));
 

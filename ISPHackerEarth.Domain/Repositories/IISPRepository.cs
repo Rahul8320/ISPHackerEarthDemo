@@ -4,9 +4,9 @@ namespace ISPHackerEarth.Domain.Repositories;
 
 public interface IISPRepository
 {
-    Task<IEnumerable<ISP>> GetAll();
-    Task<ISP?> GetById(Guid id);
-    Task Add(ISP entity);
-    Task Update(ISP entity);
-    Task Delete(Guid id);
+    Task<IEnumerable<ISP>> GetAll(CancellationToken cancellationToken);
+    Task<ISP?> GetById(Guid id, CancellationToken cancellationToken);
+    Task<bool> Add(ISP entity, CancellationToken cancellationToken);
+    Task<bool> Update(ISP entity, CancellationToken cancellationToken);
+    Task<bool> Delete(Guid id, CancellationToken cancellationToken);
 }

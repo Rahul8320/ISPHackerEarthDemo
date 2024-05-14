@@ -1,3 +1,5 @@
 */bin/
 */obj/
 .vs
+/ISPHackerEarth.Api/ISP.db-shm
+/ISPHackerEarth.Api/ISP.db-wal

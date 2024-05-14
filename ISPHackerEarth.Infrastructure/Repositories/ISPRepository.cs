@@ -1,32 +1,42 @@
 ﻿using ISPHackerEarth.Domain.Entities;
 using ISPHackerEarth.Domain.Repositories;
+using ISPHackerEarth.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISPHackerEarth.Infrastructure.Repositories;
 
-internal class ISPRepository : IISPRepository
+internal class ISPRepository(ISPDbContext dbContext) : IISPRepository
 {
-    public Task Add(ISP entity)
+    public async Task<IEnumerable<ISP>> GetAll(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await dbContext.ISPs.ToListAsync(cancellationToken);
     }
 
-    public Task Delete(Guid id)
+    public async Task<ISP?> GetById(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await dbContext.ISPs.AsNoTracking().FirstOrDefaultAsync(isp => isp.Id == id, cancellationToken);
     }
 
-    public Task<IEnumerable<ISP>> GetAll()
+    public async Task<bool> Add(ISP entity, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await dbContext.ISPs.AddAsync(entity, cancellationToken);
+        return await Complete(cancellationToken);
     }
 
-    public Task<ISP?> GetById(Guid id)
+    public async Task<bool> Update(ISP entity, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        dbContext.ISPs.Update(entity);
+        return await Complete(cancellationToken);
     }
 
-    public Task Update(ISP entity)
+    public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await dbContext.ISPs.Where(isp => isp.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
+    }
+
+    private async Task<bool> Complete(CancellationToken cancellationToken)
+    {
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
+        return result > 0;
     }
 }
