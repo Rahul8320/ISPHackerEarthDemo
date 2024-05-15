@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "2c3a5cc7-8942-4e5c-b11f-8027ae27d977",
+		"name": "ISPHackerEarth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32231251"
+	},
+	"item": [
+		{
+			"name": "Get All ISP",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Server}}/isp",
+					"host": [
+						"{{Server}}"
+					],
+					"path": [
+						"isp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ISP By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Server}}/isp/b554ab46-fd5a-40bb-a973-8c901c1ae47f",
+					"host": [
+						"{{Server}}"
+					],
+					"path": [
+						"isp",
+						"b554ab46-fd5a-40bb-a973-8c901c1ae47f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New ISP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"VI\",\r\n    \"lowest_Price\": 149,\r\n    \"max_Speed\": \"Upto 12 Mbps\",\r\n    \"description\": \"Vi offers postpaid, prepaid, and broadband plans with exclusive benefits and discounts. Recharge and pay bill online, get Vi SIM delivered free, port to Vi, and enjoy Vi Games and Hungama Music.\",\r\n    \"contact_No\": \"1216782345\",\r\n    \"email\": \"info@vi.com\",\r\n    \"image\": \"https://www.myvi.in/content/dam/vodafoneideadigital/homespyder/Vi-logo.svg\",\r\n    \"url\": \"https://www.myvi.in/\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Server}}/isp",
+					"host": [
+						"{{Server}}"
+					],
+					"path": [
+						"isp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update ISP",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"b554ab46-fd5a-40bb-a973-8c901c1ae47f\",\r\n    \"name\": \"VI\",\r\n    \"lowest_Price\": 149,\r\n    \"max_Speed\": \"Upto 12 Mbps\",\r\n    \"description\": \"Vi offers postpaid, prepaid, and broadband plans with exclusive benefits and discounts. Recharge and pay bill online, get Vi SIM delivered free, port to Vi, and enjoy Vi Games and Hungama Music.\",\r\n    \"rating\": \"3.9\",\r\n    \"contact_No\": \"1216782345\",\r\n    \"email\": \"info@vi.com\",\r\n    \"image\": \"https://www.myvi.in/content/dam/vodafoneideadigital/homespyder/Vi-logo.svg\",\r\n    \"url\": \"https://www.myvi.in/\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Server}}/isp",
+					"host": [
+						"{{Server}}"
+					],
+					"path": [
+						"isp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete ISP",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Server}}/isp/b554ab46-fd5a-40bb-a973-8c901c1ae47f",
+					"host": [
+						"{{Server}}"
+					],
+					"path": [
+						"isp",
+						"b554ab46-fd5a-40bb-a973-8c901c1ae47f"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Server",
+			"value": "http://localhost:5171/api",
+			"type": "string"
+		}
+	]
+}
