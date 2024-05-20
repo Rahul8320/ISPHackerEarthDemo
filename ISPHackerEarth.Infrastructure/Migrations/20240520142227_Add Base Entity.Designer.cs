@@ -3,6 +3,7 @@ using System;
 using ISPHackerEarth.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISPHackerEarth.Infrastructure.Migrations
 {
     [DbContext(typeof(ISPDbContext))]
-    partial class ISPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520142227_Add Base Entity")]
+    partial class AddBaseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");

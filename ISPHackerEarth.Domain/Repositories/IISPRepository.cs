@@ -8,5 +8,4 @@ public interface IISPRepository
     Task<ISP?> GetById(Guid id, CancellationToken cancellationToken);
     Task<bool> Add(ISP entity, CancellationToken cancellationToken);
     Task<bool> Update(ISP entity, CancellationToken cancellationToken);
-    Task<bool> Delete(Guid id, CancellationToken cancellationToken);
 }

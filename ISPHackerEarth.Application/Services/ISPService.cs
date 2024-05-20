@@ -70,7 +70,7 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
 
         var result = await iSPRepository.Add(isp, cancellationToken);
 
-        if(result == false)
+        if (result == false)
         {
             serviceResult.StatusCode = HttpStatusCode.BadRequest;
             serviceResult.Message = "Failed to create new ISP!";
@@ -87,7 +87,7 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
 
         var existingISP = await iSPRepository.GetById(request.Id, cancellationToken);
 
-        if(existingISP == null)
+        if (existingISP == null)
         {
             serviceResult.StatusCode = HttpStatusCode.NotFound;
             serviceResult.Message = $"ISP with id: {request.Id} not found in database!";
@@ -108,7 +108,7 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
 
         var result = await iSPRepository.Update(existingISP, cancellationToken);
 
-        if(result == false)
+        if (result == false)
         {
             serviceResult.StatusCode = HttpStatusCode.BadRequest;
             serviceResult.Message = $"Failed to update ISP details!";
@@ -130,7 +130,10 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
             return serviceResult;
         }
 
-        var result = await iSPRepository.Delete(id, cancellationToken);
+        existingISP.Status = 1;
+        existingISP.LastUpdated = DateTime.UtcNow;
+
+        var result = await iSPRepository.Update(existingISP, cancellationToken);
 
         if (result == false)
         {

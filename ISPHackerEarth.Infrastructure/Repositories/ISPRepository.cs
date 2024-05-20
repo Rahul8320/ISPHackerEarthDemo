@@ -9,12 +9,12 @@ internal class ISPRepository(ISPDbContext dbContext) : IISPRepository
 {
     public async Task<IEnumerable<ISP>> GetAll(CancellationToken cancellationToken)
     {
-        return await dbContext.ISPs.ToListAsync(cancellationToken);
+        return await dbContext.ISPs.Where(isp => isp.Status == 0).ToListAsync(cancellationToken);
     }
 
     public async Task<ISP?> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return await dbContext.ISPs.AsNoTracking().FirstOrDefaultAsync(isp => isp.Id == id, cancellationToken);
+        return await dbContext.ISPs.AsNoTracking().FirstOrDefaultAsync(isp => isp.Id == id && isp.Status == 0, cancellationToken);
     }
 
     public async Task<bool> Add(ISP entity, CancellationToken cancellationToken)
@@ -27,11 +27,6 @@ internal class ISPRepository(ISPDbContext dbContext) : IISPRepository
     {
         dbContext.ISPs.Update(entity);
         return await Complete(cancellationToken);
-    }
-
-    public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
-    {
-        return await dbContext.ISPs.Where(isp => isp.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
     }
 
     private async Task<bool> Complete(CancellationToken cancellationToken)
