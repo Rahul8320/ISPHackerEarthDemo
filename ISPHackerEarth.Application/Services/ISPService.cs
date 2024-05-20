@@ -50,7 +50,15 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
     {
         var serviceResult = new ServiceResult<GetISPResponse>();
 
-        // TODO: Add search by name if present return conflict response
+        // check for existing isp
+        var existingISP = await SearchIspByName(request.Name, cancellationToken);
+
+        if (existingISP != null)
+        {
+            serviceResult.StatusCode = HttpStatusCode.Conflict;
+            serviceResult.Message = $"An ISP with name: {existingISP.Name} already exists.";
+            return serviceResult;
+        }
 
         var isp = new ISP()
         {
@@ -151,5 +159,18 @@ internal class ISPService(IISPRepository iSPRepository) : IISPService
         double maxValue = 5.0;
         double randomRating = minValue + random.NextDouble() * (maxValue - minValue);
         return randomRating;
+    }
+
+    private async Task<ISP?> SearchIspByName(string name, CancellationToken cancellationToken)
+    {
+        var ispList = await iSPRepository.GetAll(cancellationToken);
+
+        if (ispList == null)
+        {
+            return null;
+        }
+
+        var isp = ispList.FirstOrDefault(isp => isp.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        return isp;
     }
 }
