@@ -1,3 +1,4 @@
+using ISPHackerEarth.Api.Middlewares;
 using ISPHackerEarth.Application;
 using ISPHackerEarth.Infrastructure;
 using ISPHackerEarth.Infrastructure.Data;
@@ -25,6 +26,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
+// Add exception middleware
+builder.Services.AddExceptionHandler<ISPExceptionMiddleware>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,9 +38,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAll");
+app.UseExceptionHandler(opt => { });
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 

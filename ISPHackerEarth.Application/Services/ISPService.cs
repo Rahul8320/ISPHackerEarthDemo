@@ -3,7 +3,8 @@ using ISPHackerEarth.Application.Mapper;
 using ISPHackerEarth.Application.Models.Requests;
 using ISPHackerEarth.Application.Models.Responses;
 using ISPHackerEarth.Application.Services.Interfaces;
-using ISPHackerEarth.Domain.Common.Service;
+using ISPHackerEarth.Domain.Common.Exceptions;
+using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Entities;
 using ISPHackerEarth.Domain.Repositories;
 using System.Net;
@@ -36,10 +37,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
             serviceResult.Data = result.OrderByDescending(isp => isp.LastUpdated).Select(isp => isp.ToModel());
             return serviceResult;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -66,10 +71,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
             serviceResult.Data = result.ToModel();
             return serviceResult;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: id, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -123,10 +132,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
             serviceResult.Data = isp.ToModel();
             return serviceResult;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispName: request.Name, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -173,10 +186,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
 
             return serviceResult;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: request.Id, ispName: request.Name, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -214,10 +231,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
 
             return serviceResult;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: id, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -245,10 +266,14 @@ internal class ISPService(IISPRepository iSPRepository, ILoggerService logger) :
             var isp = ispList.FirstOrDefault(isp => isp.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return isp;
         }
+        catch (ISPException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispName: name, exception: ex);
-            throw;
+            throw new ISPException(HttpStatusCode.InternalServerError, ex);
         }
     }
 }

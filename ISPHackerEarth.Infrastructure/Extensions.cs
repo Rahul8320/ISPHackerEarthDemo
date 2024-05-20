@@ -1,4 +1,4 @@
-﻿using ISPHackerEarth.Domain.Common.Service;
+﻿using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Repositories;
 using ISPHackerEarth.Infrastructure.Repositories;
 using ISPHackerEarth.Infrastructure.Service;

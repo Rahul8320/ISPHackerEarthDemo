@@ -1,4 +1,4 @@
-namespace ISPHackerEarth.Domain.Common.Model;
+namespace ISPHackerEarth.Domain.Common.Models;
 
 public class LogData(string message, Guid? ispId = null, string? ispName = null)
 {

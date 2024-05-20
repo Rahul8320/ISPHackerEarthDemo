@@ -1,6 +1,6 @@
 using System.Text.Json;
-using ISPHackerEarth.Domain.Common.Model;
-using ISPHackerEarth.Domain.Common.Service;
+using ISPHackerEarth.Domain.Common.Models;
+using ISPHackerEarth.Domain.Common.Services;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;

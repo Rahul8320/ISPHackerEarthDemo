@@ -1,4 +1,4 @@
-namespace ISPHackerEarth.Domain.Common.Service;
+namespace ISPHackerEarth.Domain.Common.Services;
 
 public interface ILoggerService
 {
