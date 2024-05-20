@@ -2,15 +2,11 @@ using ISPHackerEarth.Application;
 using ISPHackerEarth.Infrastructure;
 using ISPHackerEarth.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Get Connection String
 var dbConectionString = builder.Configuration.GetConnectionString("DbConnection");
-
-// Add Serilog
-builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddInfrastructures();
@@ -36,7 +32,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseSerilogRequestLogging();
 }
 
 app.UseCors("AllowAll");

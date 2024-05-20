@@ -11,7 +11,7 @@ public static class Extensions
     public static IServiceCollection AddInfrastructures(this IServiceCollection services)
     {
         services.AddScoped<IISPRepository, ISPRepository>();
-        services.AddScoped<ILoggerService, LoggerService>();
+        services.AddSingleton<ILoggerService, LoggerService>();
 
         return services;
     }
