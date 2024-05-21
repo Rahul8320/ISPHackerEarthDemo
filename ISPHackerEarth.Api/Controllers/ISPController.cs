@@ -1,6 +1,5 @@
 ﻿using ISPHackerEarth.Application.Models.Requests;
 using ISPHackerEarth.Application.Services.Interfaces;
-using ISPHackerEarth.Domain.Common.Exceptions;
 using ISPHackerEarth.Domain.Common.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -25,14 +24,10 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
 
             return Ok(response.Data);
         }
-        catch (ISPException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -51,14 +46,10 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
 
             return Ok(response.Data);
         }
-        catch (ISPException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: id, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -81,14 +72,10 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
 
             return CreatedAtAction(nameof(GetIspDetail), new { id = response.Data.Id }, response.Data);
         }
-        catch (ISPException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispName: request.Name, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -111,14 +98,10 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
 
             return NoContent();
         }
-        catch (ISPException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: request.Id, ispName: request.Name, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -137,14 +120,10 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
 
             return NoContent();
         }
-        catch (ISPException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, ispId: id, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 }

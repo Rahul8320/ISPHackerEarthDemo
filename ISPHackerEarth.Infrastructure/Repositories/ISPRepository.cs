@@ -1,6 +1,4 @@
-﻿using System.Net;
-using ISPHackerEarth.Domain.Common.Exceptions;
-using ISPHackerEarth.Domain.Common.Services;
+﻿using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Entities;
 using ISPHackerEarth.Domain.Repositories;
 using ISPHackerEarth.Infrastructure.Data;
@@ -19,7 +17,7 @@ internal class ISPRepository(ISPDbContext dbContext, ILoggerService logger) : II
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -32,7 +30,7 @@ internal class ISPRepository(ISPDbContext dbContext, ILoggerService logger) : II
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -46,7 +44,7 @@ internal class ISPRepository(ISPDbContext dbContext, ILoggerService logger) : II
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -60,7 +58,7 @@ internal class ISPRepository(ISPDbContext dbContext, ILoggerService logger) : II
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 
@@ -74,7 +72,7 @@ internal class ISPRepository(ISPDbContext dbContext, ILoggerService logger) : II
         catch (Exception ex)
         {
             logger.LogError(message: ex.Message, exception: ex);
-            throw new ISPException(HttpStatusCode.InternalServerError, ex);
+            throw;
         }
     }
 }
