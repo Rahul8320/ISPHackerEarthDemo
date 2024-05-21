@@ -1,12 +1,17 @@
 using System.Net;
 using ISPHackerEarth.Application.Common;
+using ISPHackerEarth.Application.Services;
+using ISPHackerEarth.Application.Services.Interfaces;
 using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Repositories;
 using MediatR;
 
 namespace ISPHackerEarth.Application.Commands.Handlers;
 
-public class DeleteIspHandler(ILoggerService logger, IISPRepository iSPRepository) : IRequestHandler<DeleteIspCommand, ServiceResult>
+public class DeleteIspHandler(
+    ILoggerService logger,
+    ICachingService cachingService,
+    IISPRepository iSPRepository) : IRequestHandler<DeleteIspCommand, ServiceResult>
 {
     public async Task<ServiceResult> Handle(DeleteIspCommand request, CancellationToken cancellationToken)
     {
@@ -39,6 +44,10 @@ public class DeleteIspHandler(ILoggerService logger, IISPRepository iSPRepositor
             }
 
             logger.LogInformation(message: "Successfully deleted isp from database.", ispId: request.IspId);
+
+            // Removed from cached
+            cachingService.RemoveData(CachingKeys.GetAllIspKey);
+            cachingService.RemoveData(CachingKeys.GetIspKey + request.IspId);
 
             return serviceResult;
         }

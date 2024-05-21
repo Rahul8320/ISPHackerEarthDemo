@@ -2,6 +2,8 @@ using System.Net;
 using ISPHackerEarth.Application.Common;
 using ISPHackerEarth.Application.Mapper;
 using ISPHackerEarth.Application.Models.Responses;
+using ISPHackerEarth.Application.Services;
+using ISPHackerEarth.Application.Services.Interfaces;
 using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Entities;
 using ISPHackerEarth.Domain.Repositories;
@@ -9,7 +11,10 @@ using MediatR;
 
 namespace ISPHackerEarth.Application.Commands.Handlers;
 
-public class CreateIspHandler(ILoggerService logger, IISPRepository iSPRepository) : IRequestHandler<CreateIspCommand, ServiceResult<GetISPResponse>>
+public class CreateIspHandler(
+    ILoggerService logger,
+    ICachingService cachingService,
+    IISPRepository iSPRepository) : IRequestHandler<CreateIspCommand, ServiceResult<GetISPResponse>>
 {
     public async Task<ServiceResult<GetISPResponse>> Handle(CreateIspCommand request, CancellationToken cancellationToken)
     {
@@ -57,6 +62,9 @@ public class CreateIspHandler(ILoggerService logger, IISPRepository iSPRepositor
             }
 
             logger.LogInformation(message: "Susseccfully created new isp.", ispId: isp.Id, ispName: isp.Name);
+
+            // Removed cached for all isp
+            cachingService.RemoveData(CachingKeys.GetAllIspKey);
 
             serviceResult.Data = isp.ToModel();
             return serviceResult;

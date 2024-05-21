@@ -1,12 +1,17 @@
 using System.Net;
 using ISPHackerEarth.Application.Common;
+using ISPHackerEarth.Application.Services;
+using ISPHackerEarth.Application.Services.Interfaces;
 using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Repositories;
 using MediatR;
 
 namespace ISPHackerEarth.Application.Commands.Handlers;
 
-public class UpdateIspHandler(ILoggerService logger, IISPRepository iSPRepository) : IRequestHandler<UpdateIspCommand, ServiceResult>
+public class UpdateIspHandler(
+    ILoggerService logger,
+    ICachingService cachingService,
+    IISPRepository iSPRepository) : IRequestHandler<UpdateIspCommand, ServiceResult>
 {
     public async Task<ServiceResult> Handle(UpdateIspCommand request, CancellationToken cancellationToken)
     {
@@ -48,6 +53,10 @@ public class UpdateIspHandler(ILoggerService logger, IISPRepository iSPRepositor
             }
 
             logger.LogInformation(message: "Susseccfully updated isp details.", ispId: request.ISPRequest.Id, ispName: request.ISPRequest.Name);
+
+            // Removed from cached
+            cachingService.RemoveData(CachingKeys.GetAllIspKey);
+            cachingService.RemoveData(CachingKeys.GetIspKey + request.ISPRequest.Id);
 
             return serviceResult;
         }

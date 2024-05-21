@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ISPHackerEarth.Application.Services;
+using ISPHackerEarth.Application.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ISPHackerEarth.Application;
 
@@ -8,6 +10,8 @@ public static class Extensions
     {
         // Injecting MediatR to our DI
         services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Extensions).Assembly));
+
+        services.AddScoped<ICachingService, CachingService>();
 
         return services;
     }

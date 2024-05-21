@@ -2,13 +2,18 @@ using System.Net;
 using ISPHackerEarth.Application.Common;
 using ISPHackerEarth.Application.Mapper;
 using ISPHackerEarth.Application.Models.Responses;
+using ISPHackerEarth.Application.Services;
+using ISPHackerEarth.Application.Services.Interfaces;
 using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Repositories;
 using MediatR;
 
 namespace ISPHackerEarth.Application.Queries.Handlers;
 
-public class GetIspHandler(ILoggerService logger, IISPRepository iSPRepository) : IRequestHandler<GetIspQuery, ServiceResult<GetISPResponse>>
+public class GetIspHandler(
+    ILoggerService logger,
+    ICachingService cachingService,
+    IISPRepository iSPRepository) : IRequestHandler<GetIspQuery, ServiceResult<GetISPResponse>>
 {
     public async Task<ServiceResult<GetISPResponse>> Handle(GetIspQuery request, CancellationToken cancellationToken)
     {
@@ -16,11 +21,23 @@ public class GetIspHandler(ILoggerService logger, IISPRepository iSPRepository) 
         {
             var serviceResult = new ServiceResult<GetISPResponse>();
 
-            logger.LogInformation(message: "Fetching data from repository.", ispId: request.IspId);
+            logger.LogInformation(message: "Fetching data from cached...", ispId: request.IspId);
+            var cachedIsp = cachingService.GetData<GetISPResponse>(CachingKeys.GetIspKey + request.IspId);
 
-            var result = await iSPRepository.GetById(request.IspId, cancellationToken);
+            if (cachedIsp != null)
+            {
+                logger.LogInformation(message: "Successfully fetch data from cached.", ispId: cachedIsp.Id, ispName: cachedIsp.Name);
+                serviceResult.Data = cachedIsp;
+                return serviceResult;
+            }
 
-            if (result == null)
+            logger.LogWarning(message: "No data found in cached", ispId: request.IspId);
+
+            logger.LogInformation(message: "Fetching data from database...", ispId: request.IspId);
+
+            var ispDetails = await iSPRepository.GetById(request.IspId, cancellationToken);
+
+            if (ispDetails == null)
             {
                 logger.LogInformation(message: "Isp not found!.", ispId: request.IspId);
                 serviceResult.StatusCode = HttpStatusCode.NotFound;
@@ -28,9 +45,15 @@ public class GetIspHandler(ILoggerService logger, IISPRepository iSPRepository) 
                 return serviceResult;
             }
 
-            logger.LogInformation(message: "Fatch successfully.", ispId: result.Id, ispName: result.Name);
+            logger.LogInformation(message: "Successfully fetch data from database..", ispId: ispDetails.Id, ispName: ispDetails.Name);
 
-            serviceResult.Data = result.ToModel();
+            // Mapped isp to response model
+            var mappedIsp = ispDetails.ToModel();
+
+            // set data into cached
+            cachingService.SetData<GetISPResponse>(CachingKeys.GetIspKey + mappedIsp.Id, mappedIsp);
+
+            serviceResult.Data = mappedIsp;
             return serviceResult;
         }
         catch (Exception ex)
