@@ -16,6 +16,10 @@ builder.Services.AddApplications();
 builder.Services.AddDbContext<ISPDbContext>(option => option.UseSqlite(dbConectionString));
 
 builder.Services.AddControllers();
+
+// Add exception middleware
+builder.Services.AddExceptionHandler<ISPExceptionMiddleware>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,9 +29,6 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
-
-// Add exception middleware
-builder.Services.AddExceptionHandler<ISPExceptionMiddleware>();
 
 var app = builder.Build();
 

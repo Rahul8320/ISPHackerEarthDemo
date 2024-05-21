@@ -1,7 +1,7 @@
 ﻿using ISPHackerEarth.Domain.Common.Services;
 using ISPHackerEarth.Domain.Repositories;
 using ISPHackerEarth.Infrastructure.Repositories;
-using ISPHackerEarth.Infrastructure.Service;
+using ISPHackerEarth.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ISPHackerEarth.Infrastructure;

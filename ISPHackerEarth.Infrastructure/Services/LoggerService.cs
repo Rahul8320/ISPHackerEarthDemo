@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
-namespace ISPHackerEarth.Infrastructure.Service;
+namespace ISPHackerEarth.Infrastructure.Services;
 
 public class LoggerService : ILoggerService
 {

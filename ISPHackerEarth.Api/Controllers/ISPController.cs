@@ -1,6 +1,8 @@
-﻿using ISPHackerEarth.Application.Models.Requests;
-using ISPHackerEarth.Application.Services.Interfaces;
+﻿using ISPHackerEarth.Application.Commands;
+using ISPHackerEarth.Application.Models.Requests;
+using ISPHackerEarth.Application.Queries;
 using ISPHackerEarth.Domain.Common.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,14 +10,15 @@ namespace ISPHackerEarth.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ISPController(IISPService iSPService, ILoggerService logger) : ControllerBase
+public class ISPController(ILoggerService logger, IMediator mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllIsp(CancellationToken cancellationToken)
     {
         try
         {
-            var response = await iSPService.GetAllISP(cancellationToken);
+            var query = new GetAllIspQuery();
+            var response = await mediator.Send(query, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -37,7 +40,8 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
     {
         try
         {
-            var response = await iSPService.GetISPById(id, cancellationToken);
+            var query = new GetIspQuery(id);
+            var response = await mediator.Send(query, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -63,7 +67,8 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
                 return BadRequest(ModelState);
             }
 
-            var response = await iSPService.AddNewISP(request, cancellationToken);
+            var command = new CreateIspCommand(request);
+            var response = await mediator.Send(command, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -89,7 +94,8 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
                 return BadRequest(ModelState);
             }
 
-            var response = await iSPService.UpdateISP(request, cancellationToken);
+            var command = new UpdateIspCommand(request);
+            var response = await mediator.Send(command, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -111,7 +117,8 @@ public class ISPController(IISPService iSPService, ILoggerService logger) : Cont
     {
         try
         {
-            var response = await iSPService.DeleteISP(id, cancellationToken);
+            var command = new DeleteIspCommand(id);
+            var response = await mediator.Send(command, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
